@@ -57,7 +57,7 @@ irá ler este documento na hora da correção do trabalho.
 
 | Item                             | Resposta            |
 |:---------------------------------|:--------------------|
-| Produto                          |   TENIS                 |
+| Produto                          |   TENIS DE HANDEBOL                |
 | Site                             |https://www.netshoes.com.br/ |
 | Intervalo de datas               |                     |
 | Atribuições:                     |                     |
