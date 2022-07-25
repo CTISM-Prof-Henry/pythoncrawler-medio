@@ -19,15 +19,15 @@ Ajude Jorginho a decidir qual o melhor preço dos produtos que quer comprar!
 **Dica:** Para marcar um dos _checkboxes_ abaixo, edite o arquivo em Markdown
 e troque de `[ ]` para `[x]`.
 
-* [ ] [Configure seu ambiente de trabalho.](https://github.com/CTISM-Prof-Henry/pythonEssentials/)
-* [ ] Escolha um produto para rastrear. Pode ser qualquer coisa: tênis, bolsa,
+* [x] [Configure seu ambiente de trabalho.](https://github.com/CTISM-Prof-Henry/pythonEssentials/)
+* [x] Escolha um produto para rastrear. Pode ser qualquer coisa: tênis, bolsa,
       sapatos, peças para computador, celulares, passagens de avião, _qualquer 
       coisa_. O produto deve ser único; nenhum outro grupo pode ter escolhido o 
       mesmo produto que você. Todavia, você deve rastrear o preço de diversos 
       produtos. Por exemplo, se o seu grupo escolher rastrear celulares, você 
       irá anotar o preço de **todos** os celulares no site escolhido, no período
       de tempo que seu _web crawler_ rodar.
-* [ ] Escolha um site para rastrear. O site, obviamente, deve vender o produto
+* [x] Escolha um site para rastrear. O site, obviamente, deve vender o produto
       que você escolheu. O site deve ser único; nenhum outro grupo pode ter 
       escolhido o mesmo site que você.
 * [ ] Diga qual membro do grupo ficará responsável por qual parte do 
@@ -57,14 +57,14 @@ irá ler este documento na hora da correção do trabalho.
 
 | Item                             | Resposta            |
 |:---------------------------------|:--------------------|
-| Produto                          |                     |
-| Site                             |                     |
+| Produto                          |   TENIS                 |
+| Site                             |https://www.netshoes.com.br/ |
 | Intervalo de datas               |                     |
 | Atribuições:                     |                     |
-| * Programação do web crawler     |                     |
-| * Elaboração do banco de dados   |                     |
-| * Escrita da análise             |                     |
-| * Elaboração do gráfico          |                     |
+| * Programação do web crawler     |    Bruno            |
+| * Elaboração do banco de dados   |    Luize            |
+| * Escrita da análise             |    Gianna           |
+| * Elaboração do gráfico          |     Luize           |
 
 ## Avaliação
 
