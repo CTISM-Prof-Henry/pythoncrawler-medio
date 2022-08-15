@@ -64,7 +64,7 @@ irá ler este documento na hora da correção do trabalho.
 | * Programação do web crawler     |    Bruno            |
 | * Elaboração do banco de dados   |    Luize            |
 | * Escrita da análise             |    Gianna           |
-| * Elaboração do gráfico          |     Luize           |
+| * Elaboração do gráfico          |     Gianna        |
 
 ## Avaliação
 
