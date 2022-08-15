@@ -9,7 +9,7 @@ cur = con.cursor()
 # cria tabela
 cur.execute('''
     CREATE TABLE IF NOT EXISTS TENIS (
-        id integer, nome text, valor integer, cor text,
+        id integer, nome text, valor integer,
         primary key(id)
     )
 ''')
