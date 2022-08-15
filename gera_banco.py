@@ -1,6 +1,5 @@
 # código muito simplificado para criar um banco de dados de exemplo.
 import sqlite3
-from os import
 # abre uma conexão
 con = sqlite3.connect('banco.db')
 

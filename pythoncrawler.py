@@ -12,15 +12,14 @@ def main():
 
     with webdriver.Firefox(executable_path=path) as driver:
         # abre uma instância do firefox na página dada
-        driver.get(
-            'https://www.netshoes.com.br/tenis-asics-gelrebound-feminino-preto+verde-2FV-8422-871')  # link do produto
+        driver.get('https://www.netshoes.com.br/busca?nsCat=Natural&q=handebol+asics&genero=feminino')  # link do produto
         # adicionando a tag onde esta o preço
-        nome_produto1 = driver.find_elements_by_tag_name("h1")
+        nome_produto = driver.find_elements_by_tag_name("div.item-card__description__product-name")
 
         # imprimindo na tela o valor do produto
-        for some in nome_produto1:
+        for some in nome_produto:
             print(some.text)
-        preco_produto = driver.find_elements_by_tag_name("div.default-price")
+        preco_produto = driver.find_elements_by_tag_name("div.pr")
         for some in preco_produto:
             print(some.text)
         time.sleep(10)
