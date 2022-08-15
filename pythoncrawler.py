@@ -18,8 +18,8 @@ def main():
         preco_produto = driver.find_elements_by_tag_name("div.pr")
         # imprimindo na tela o valor do produto
 
-        for cu in nome_produto, preco_produto:
-            print(cu.text)
+        for produtos in nome_produto, preco_produto:
+            print(produtos.text)
         time.sleep(10)
 
 
