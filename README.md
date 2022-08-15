@@ -30,7 +30,7 @@ e troque de `[ ]` para `[x]`.
 * [x] Escolha um site para rastrear. O site, obviamente, deve vender o produto
       que você escolheu. O site deve ser único; nenhum outro grupo pode ter 
       escolhido o mesmo site que você.
-* [ ] Diga qual membro do grupo ficará responsável por qual parte do 
+* [x] Diga qual membro do grupo ficará responsável por qual parte do 
       trabalho. A resposta dada na tabela será checada com os commits do 
       repositório.
 * [ ] Elabore um fluxograma com o projeto do banco de dados. Salve em um arquivo
