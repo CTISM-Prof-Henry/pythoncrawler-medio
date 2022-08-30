@@ -16,13 +16,13 @@ def main():
         # abre uma instância do firefox na página dada
         driver.get('https://www.netshoes.com.br/busca?nsCat=Natural&q=handebol+asics&genero=feminino')  # link do produto
         # adicionando a tag onde esta o preço
-        nome_produtos = driver.find_elements_by_tag_name("div.item-card__description__product-name")  # type: list
-        preco_produtos = driver.find_elements_by_tag_name("div.pr")  # type: list
+        nome_produtos = driver.find_elements_by_tag_name("div.item-card__description__product-name")
+        preco_produtos = driver.find_elements_by_tag_name("span.haveInstallments")
         # imprimindo na tela o valor do produto
 
         for produto in zip(nome_produtos, preco_produtos):
-            nome = produto[0]  # type: WebElement
-            preco = produto[1]  # type: WebElement
+            nome = produto[0]
+            preco = produto[1]
             print('Nome: %s Preço: %s' % (nome.text, preco.text))
         time.sleep(10)
 
