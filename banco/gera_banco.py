@@ -8,16 +8,33 @@ cur = con.cursor()
 
 # cria tabela
 cur.execute('''
-    CREATE TABLE IF NOT EXISTS TENIS (
-        id integer, nome text, valor integer,
+    CREATE TABLE IF NOT EXISTS PRODUTO (
+        id_produto integer, nome text, desconto text,
         primary key(id)
+    )
+''')
+
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS ANOTA (
+        id_anota integer, preco text, data text,
+        primary key(id)
+    )
+''')
+
+cur.execute('''
+    CREATE TABLE IF NOT EXISTS INTERSECTA (
+        id_anota integer not null, id_produto integer not null,
+        primary key(id_anota, id_anotacao),
+        foreign key (id_produto) references PRODUT(id_produto)
+        foreign key (id_anota) refences ANOTA(id_anota)
+        
     )
 ''')
 
 # insere dados
 cur.execute('''
-    INSERT INTO TENIS(id, nome, valor, cor) VALUES 
-    (0, 0, 1, 'primeiro semestre'),
+    INSERT INTO PRODUTOS() VALUES 
+    (001, 'nome',),
     (1, 1, 0, 'primeiro semestre'),
     (2, 2, 0, 'primeiro semestre'),
     (3, 3, 0, 'primeiro semestre'),
