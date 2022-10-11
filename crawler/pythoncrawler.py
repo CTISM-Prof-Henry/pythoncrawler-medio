@@ -1,4 +1,3 @@
-from mpmath.functions.elliptic import nome
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
@@ -6,7 +5,6 @@ import os
 import datetime
 
 import sqlite3
-
 
 from selenium.webdriver.remote.webelement import WebElement
 
@@ -31,13 +29,6 @@ def main():
         data_crawler = datetime.datetime.now()  # pegando data de acesso
         print("Dia de acesso: ", data_crawler.date())
         print("Horario de acesso: ", data_crawler.time())
-
-        # abre uma conexão
-        con = sqlite3.connect('banco.db')
-
-        # pega um cursor, que é o objeto que irá executar as transações
-        cur = con.cursor()
-
         # imprimindo na tela o valor do produto
         for produto in zip(nome_produtos, preco_produtos, desconto_produto):  # zipando para poder manipular
 
@@ -45,24 +36,25 @@ def main():
             preco = produto[1]  # preço vai na posição 2
             desconto = produto[2]  # desconto vai na posição 3
 
-            if not desconto:  # definindo que se nao houver desconto, mostra na tela:
-                print('Nome: %s \nPreço: %s\nDesconto: --' % (nome.text, preco.text))
-            else:  # se houver:
-                print('Nome: %s \nPreço: %s\nDesconto:  %s' % (nome.text, preco.text, desconto.text))
+            con = sqlite3.connect('../banco/banco.db')
+            # pega um cursor, que é o objeto que irá executar as transações
+            cur = con.cursor()
 
-            cur.execute('''INSERT INTO PRODUTOS() VALUES ({0}, '{1}')'''.format(id, nome))
+            # pega o ultimo id da tabela produtos
+            try:
+                last_id = int(cur.execute('SELECT MAX(id_produto) from produtos').fetchone()[0]) + 1
+            except:
+                last_id = 0
 
-        time.sleep(2)  # botando p dormir por 2 segundos
+            for element in produto:
+                cur.execute(
+                    'INSERT INTO produtos(id_produto, nome, desconto) VALUES ({0}, \'{1}\', \'{2}\')'.format(last_id, element.text, desconto)
+                )
+                last_id += 1
 
-        # salva modificações
-        con.commit()
-
-        # fecha conexão com o banco
-        con.close()
-
-def getnome():
-    return nome
-def get
+                con.commit()
+                # fecha conexão com o banco
+                con.close()
 
 
 if __name__ == '__main__':

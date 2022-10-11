@@ -10,41 +10,27 @@ cur = con.cursor()
 cur.execute('''
     CREATE TABLE IF NOT EXISTS PRODUTO (
         id_produto integer, nome text, desconto text,
-        primary key(id)
+        primary key(id_produto)
     )
 ''')
 
 cur.execute('''
     CREATE TABLE IF NOT EXISTS ANOTA (
-        id_anota integer, preco text, data text,
-        primary key(id)
+        id_anota integer, preco text, data_crawler text,
+        primary key(id_anota)
     )
 ''')
 
 cur.execute('''
     CREATE TABLE IF NOT EXISTS INTERSECTA (
         id_anota integer not null, id_produto integer not null,
-        primary key(id_anota, id_anotacao),
-        foreign key (id_produto) references PRODUT(id_produto)
-        foreign key (id_anota) refences ANOTA(id_anota)
+        primary key(id_anota, id_produto),
+        foreign key (id_produto) references PRODUTO(id_produto)
+        foreign key (id_anota) references ANOTA(id_anota)
         
     )
 ''')
 
-# insere dados
-cur.execute('''
-    INSERT INTO PRODUTOS() VALUES 
-    (001, 'nome',),
-    (1, 1, 0, 'primeiro semestre'),
-    (2, 2, 0, 'primeiro semestre'),
-    (3, 3, 0, 'primeiro semestre'),
-    (4, 4, 0, 'primeiro semestre'),
-    (5, 0, 0, 'segundo semestre'),
-    (6, 1, 1, 'segundo semestre'),
-    (7, 2, 0, 'segundo semestre'),
-    (8, 3, 0, 'segundo semestre'),
-    (9, 4, 0, 'segundo semestre');
-''')
 
 # salva modificações
 con.commit()
