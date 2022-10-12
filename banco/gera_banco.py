@@ -9,15 +9,17 @@ cur = con.cursor()
 # cria tabela
 cur.execute('''
     CREATE TABLE IF NOT EXISTS PRODUTO (
-        id_produto integer, nome text, desconto text, 
-        primary key(id_produto)
+        id_produto INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT, 
+        desconto TEXT
     )
 ''')
 
 cur.execute('''
     CREATE TABLE IF NOT EXISTS ANOTA (
-        id_anota integer, preco text, data_crawler text,
-        primary key(id_anota)
+        id_anota INTEGER PRIMARY KEY AUTOINCREMENT,
+        preco TEXT, 
+        data_crawler TEXT
     )
 ''')
 
