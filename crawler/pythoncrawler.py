@@ -76,8 +76,6 @@ def main():
                 ultimo_anota_id += 1
 
                 con.commit()
-                # fechando conexão com o banco
-                con.close()
 
 
 if __name__ == '__main__':
