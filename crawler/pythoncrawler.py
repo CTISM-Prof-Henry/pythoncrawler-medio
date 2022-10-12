@@ -47,8 +47,17 @@ def main():
                 if res is None:  # se nao tiver nada no banco:
                     # insere id, nome, preco e desconto
                     cur.execute(
+<<<<<<< HEAD
                         'INSERT OR REPLACE INTO PRODUTO(id_produto, nome, desconto) VALUES ({0}, \'{1}\', \'{2}\')'.format
                         (ultimo_produto_id, nome.text, preco.text, desconto.text)
+=======
+<<<<<<< HEAD
+                        'INSERT INTO PRODUTO(id_produto, nome, preco, desconto) VALUES ({0}, \'{1}\', \'{2}\', \'{3}\')'.format
+=======
+                        'INSERT INTO PRODUTO(id_produto, nome, desconto) VALUES ({0}, \'{1}\', \'{2}\')'.format
+>>>>>>> 7dcada7f1c96d073263a9496caf224ec76c353bf
+                        (ultimo_produto_id, nome, preco, desconto)
+>>>>>>> d529ca77831828ce33a8ea3c1acbec1d027aa681
                     )
                     # definindo id_produto
                     id_produto = ultimo_produto_id
