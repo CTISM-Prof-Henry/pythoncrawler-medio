@@ -31,7 +31,7 @@ def main():
         for price in preco_produtos:
             preco = price.text
 
-        database_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'banco.db')
+        database_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../banco/banco.db')
         with sqlite3.connect(database_path) as con:
             cur = sqlite3.connect('../banco/banco.db')
             # pegando data do dia q rodar
@@ -63,7 +63,7 @@ def main():
 
                 # inserindo na tabela ANOTA
                 cur.execute(
-                    'INSERT OR REPLACE INTO ANOTA(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\')'.format(
+                    'INSERT OR REPLACE INTO ANOTA(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(
                         ultimo_anota_id, data_crawler, preco)
                 )
 

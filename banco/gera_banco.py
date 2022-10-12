@@ -1,5 +1,6 @@
 # código muito simplificado para criar um banco de dados de exemplo.
 import sqlite3
+
 # abre uma conexão
 con = sqlite3.connect('banco.db')
 
@@ -8,32 +9,30 @@ cur = con.cursor()
 
 # cria tabela
 cur.execute('''
-    CREATE TABLE IF NOT EXISTS PRODUTO (
-        id_produto integer,
-        nome text, 
-        primary key (id_produto)
-    )
+            CREATE TABLE IF NOT EXISTS PRODUTO (
+                id_produto integer,
+                nome text, 
+                primary key (id_produto)
+            )
 ''')
 
 cur.execute('''
-    CREATE TABLE IF NOT EXISTS ANOTA (
-        id_anota integer,
-        preco text, 
-        dia_crawler text,
-        primary key(id_anota)
-    )
-''')
-
+           CREATE TABLE IF NOT EXISTS ANOTA (
+               id_anota integer, 
+               dia_crawler text, 
+               preco text,
+               primary key(id_anota)
+           )
+       ''')
 cur.execute('''
     CREATE TABLE IF NOT EXISTS PRODUTO_e_ANOTA (
         id_anota integer not null, id_produto integer not null,
         primary key(id_anota, id_produto),
         foreign key (id_produto) references PRODUTO(id_produto)
         foreign key (id_anota) references ANOTA(id_anota)
-        
+
     )
 ''')
-
 
 # salva modificações
 con.commit()
