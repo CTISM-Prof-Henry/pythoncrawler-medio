@@ -45,9 +45,9 @@ def main():
             # zipando os produtos para manipulação
             for produto in zip(nome_produtos, preco_produtos, desconto_produto):
 
-                nome = produto
-                preco = produto
-                desconto = produto
+                nome = produto[0]
+                preco = produto[1]
+                desconto = produto[2]
                 # se tiver no banco
                 res = cur.execute('SELECT id_produto FROM PRODUTO WHERE nome=\'{0}\''.format(nome)).fetchone()
                 if res is None:  # se nao tiver nada no banco:
