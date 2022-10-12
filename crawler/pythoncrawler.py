@@ -23,9 +23,14 @@ def main():
         # adicionando a tag onde esta o preço
         nome_produtos = driver.find_elements_by_tag_name("div.item-card__description__product-name")
         preco_produtos = driver.find_elements_by_tag_name("span.haveInstallments")
-        desconto_produto = driver.find_elements_by_tag_name("li.discount.text")
         time.sleep(4)
         # abrindo conexao com banco
+
+        for name in nome_produtos:
+            nome = name.text
+        for price in preco_produtos:
+            preco = price.text
+
         database_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'banco.db')
         with sqlite3.connect(database_path) as con:
             cur = sqlite3.connect('../banco/banco.db')
@@ -42,23 +47,13 @@ def main():
             except:
                 ultimo_anota_id = 0
 
-            # zipando os produtos para manipulação
-            for produto in zip(nome_produtos, preco_produtos, desconto_produto):
-
-                nome = produto[0]
-                preco = produto[1]
-                desconto = produto[2]
                 # se tiver no banco
                 res = cur.execute('SELECT id_produto FROM PRODUTO WHERE nome=\'{0}\''.format(nome)).fetchone()
                 if res is None:  # se nao tiver nada no banco:
                     # insere id, nome, preco e desconto
                     cur.execute(
-<<<<<<< HEAD
-                        'INSERT INTO PRODUTO(id_produto, nome, preco, desconto) VALUES ({0}, \'{1}\', \'{2}\', \'{3}\')'.format
-=======
-                        'INSERT INTO PRODUTO(id_produto, nome, desconto) VALUES ({0}, \'{1}\', \'{2}\')'.format
->>>>>>> 7dcada7f1c96d073263a9496caf224ec76c353bf
-                        (ultimo_produto_id, nome, preco, desconto)
+                        'INSERT OR REPLACE INTO PRODUTO(id_produto, nome) VALUES ({0}, \'{1}\')'.format
+                        (ultimo_produto_id, nome)
                     )
                     # definindo id_produto
                     id_produto = ultimo_produto_id
@@ -68,13 +63,13 @@ def main():
 
                 # inserindo na tabela ANOTA
                 cur.execute(
-                    'INSERT INTO ANOTA(id_anota, data_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(
-                        ultimo_anota_id, data_crawler, 'R$ 0,00')
+                    'INSERT OR REPLACE INTO ANOTA(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\')'.format(
+                        ultimo_anota_id, data_crawler, preco)
                 )
 
                 # inserindo na tabela de intersecção PRODUTO_e_ANOTA
                 cur.execute(
-                    'INSERT INTO PRODUTO_e_ANOTA(id_produto, id_anota) VALUES ({0}, {1})'.format(
+                    'INSERT OR REPLACE INTO PRODUTO_e_ANOTA(id_produto, id_anota) VALUES ({0}, {1})'.format(
                         id_produto, ultimo_anota_id
                     )
                 )
