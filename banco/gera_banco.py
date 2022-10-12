@@ -9,7 +9,7 @@ cur = con.cursor()
 # cria tabela
 cur.execute('''
     CREATE TABLE IF NOT EXISTS PRODUTO (
-        id_produto integer, nome text, desconto text,
+        id_produto integer, nome text, desconto text, preco text,
         primary key(id_produto)
     )
 ''')
@@ -22,7 +22,7 @@ cur.execute('''
 ''')
 
 cur.execute('''
-    CREATE TABLE IF NOT EXISTS INTERSECTA (
+    CREATE TABLE IF NOT EXISTS PRODUTO_e_ANOTA (
         id_anota integer not null, id_produto integer not null,
         primary key(id_anota, id_produto),
         foreign key (id_produto) references PRODUTO(id_produto)

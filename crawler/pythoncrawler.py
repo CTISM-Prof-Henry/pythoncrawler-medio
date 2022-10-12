@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import os
-import datetime
+from datetime import datetime as dt
 
 import sqlite3
 
@@ -24,36 +24,60 @@ def main():
         nome_produtos = driver.find_elements_by_tag_name("div.item-card__description__product-name")
         preco_produtos = driver.find_elements_by_tag_name("span.haveInstallments")
         desconto_produto = driver.find_elements_by_tag_name("li.discount.text")
-
-        # data e hora:
-        data_crawler = datetime.datetime.now()  # pegando data de acesso
-        print("Dia de acesso: ", data_crawler.date())
-        print("Horario de acesso: ", data_crawler.time())
-        # imprimindo na tela o valor do produto
-        for produto in zip(nome_produtos, preco_produtos, desconto_produto):  # zipando para poder manipular
-
-            nome = produto[0]  # nome vai na posição 1
-            preco = produto[1]  # preço vai na posição 2
-            desconto = produto[2]  # desconto vai na posição 3
-
-            con = sqlite3.connect('../banco/banco.db')
-            # pega um cursor, que é o objeto que irá executar as transações
-            cur = con.cursor()
-
-            # pega o ultimo id da tabela produtos
+        time.sleep(4)
+        # abrindo conexao com banco
+        database_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'banco.db')
+        with sqlite3.connect(database_path) as con:
+            cur = sqlite3.connect('../banco/banco.db')
+            # pegando data do dia q rodar
+            data_crawler = dt.now().strftime('%Y-%m-%d-%H-%M-%S')
+            # gerando os id da tabela produtos
             try:
-                last_id = int(cur.execute('SELECT MAX(id_produto) from produtos').fetchone()[0]) + 1
+                ultimo_produto_id = int(cur.execute('SELECT MAX(id_produto) from produtos').fetchone()[0]) + 1
             except:
-                last_id = 0
+                ultimo_produto_id = 0
+            # gerando os id da tabela anota
+            try:
+                ultimo_anota_id = int(cur.execute('SELECT MAX(id_anotacao) from anotacoes').fetchone()[0]) + 1
+            except:
+                ultimo_anota_id = 0
 
-            for element in produto:
+            # zipando os produtos para manipulação
+            for produto in zip(nome_produtos, preco_produtos, desconto_produto):
+
+                nome = produto
+                preco = produto
+                desconto = produto
+                # se tiver no banco
+                res = cur.execute('SELECT id_produto FROM PRODUTO WHERE nome=\'{0}\''.format(nome)).fetchone()
+                if res is None:  # se nao tiver nada no banco:
+                    # insere id, nome, preco e desconto
+                    cur.execute(
+                        'INSERT INTO PRODUTO(id_produto, nome, preco, desconto) VALUES ({0}, \'{1}\', \'{2}\',  \'{3}\')'.format
+                        (ultimo_produto_id, nome, preco, desconto)
+                    )
+                    # definindo id_produto
+                    id_produto = ultimo_produto_id
+                    ultimo_produto_id += 1
+                else:
+                    id_produto = res[0]   # atribui o id recuperado a variável id_produto
+
+                # inserindo na tabela ANOTA
                 cur.execute(
-                    'INSERT INTO produtos(id_produto, nome, desconto) VALUES ({0}, \'{1}\', \'{2}\')'.format(last_id, element.text, desconto)
+                    'INSERT INTO ANOTA(id_anota, data_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(
+                        ultimo_anota_id, data_crawler, 'R$ 0,00')
                 )
-                last_id += 1
+
+                # inserindo na tabela de intersecção PRODUTO_e_ANOTA
+                cur.execute(
+                    'INSERT INTO PRODUTO_e_ANOTA(id_produto, id_anota) VALUES ({0}, {1})'.format(
+                        id_produto, ultimo_anota_id
+                    )
+                )
+                ultimo_anota_id += 1
 
                 con.commit()
-                # fecha conexão com o banco
+                # fechando conexão com o banco
                 con.close()
 
 
