@@ -1,3 +1,6 @@
+# Diagrama Banco de Dados
+![](crawler_driagrama.png)
+
 # Análise
 
 Este arquivo é um exemplo da análise que você escreverá.
@@ -11,5 +14,4 @@ ao banco de dados. Verifique o exemplo que acompanha este repositório.
 
 Uma galeria de exemplos de gráficos que o matplotlib pode gerar está 
 [neste link](https://matplotlib.org/stable/gallery/index.html).
-
 ![](gráfico.png)

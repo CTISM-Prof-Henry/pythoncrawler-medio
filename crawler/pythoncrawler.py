@@ -45,15 +45,19 @@ def main():
             # zipando os produtos para manipulação
             for produto in zip(nome_produtos, preco_produtos, desconto_produto):
 
-                nome = produto
-                preco = produto
-                desconto = produto
+                nome = produto[0]
+                preco = produto[1]
+                desconto = produto[2]
                 # se tiver no banco
                 res = cur.execute('SELECT id_produto FROM PRODUTO WHERE nome=\'{0}\''.format(nome)).fetchone()
                 if res is None:  # se nao tiver nada no banco:
                     # insere id, nome, preco e desconto
                     cur.execute(
+<<<<<<< HEAD
                         'INSERT INTO PRODUTO(id_produto, nome, preco, desconto) VALUES ({0}, \'{1}\', \'{2}\', \'{3}\')'.format
+=======
+                        'INSERT INTO PRODUTO(id_produto, nome, desconto) VALUES ({0}, \'{1}\', \'{2}\')'.format
+>>>>>>> 7dcada7f1c96d073263a9496caf224ec76c353bf
                         (ultimo_produto_id, nome, preco, desconto)
                     )
                     # definindo id_produto

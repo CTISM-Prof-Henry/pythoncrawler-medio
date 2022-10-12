@@ -9,7 +9,7 @@ cur = con.cursor()
 # cria tabela
 cur.execute('''
     CREATE TABLE IF NOT EXISTS PRODUTO (
-        id_produto integer, nome text, desconto text, preco text,
+        id_produto integer, nome text, desconto text, 
         primary key(id_produto)
     )
 ''')
