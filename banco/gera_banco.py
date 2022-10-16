@@ -37,8 +37,8 @@ def main():
             CREATE TABLE IF NOT EXISTS produto_e_anota (
                 id_anota integer not null, id_produto integer not null,
                 primary key(id_anota, id_produto),
-                foreign key (id_produto) references PRODUTO(id_produto)
-                foreign key (id_anota) references ANOTA(id_anota)
+                foreign key (id_produto) references produto(id_produto)
+                foreign key (id_anota) references anota(id_anota)
         
             )
         ''')
