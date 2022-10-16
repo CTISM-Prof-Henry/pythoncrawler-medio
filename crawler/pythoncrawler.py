@@ -50,9 +50,10 @@ def main():
                 for j in range(len(price_product)):  # contando itens do dicionario para gerar id
                     id_anota += j + 1  # acrescentando 1 a cada id
                     print('id anotação: ', id_anota)  # verificando o id
-                    cur.execute('INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', {2})'.format(id_anota, data_crawler, preco))
-                    cur.execute('INSERT INTO produto_e_anota(id_anota, id_produto) VALUES ({0}, \'{1}\', {2})'.format(id_anota, id_anota))
-                    con.commit()
+                    cur.execute('INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(id_anota, data_crawler, preco))
+
+            cur.execute('INSERT INTO produto_e_anota(id_anota, id_produto) VALUES ({0}, \'{1}\')'.format(id_anota, id_anota))
+            con.commit()
             con.commit()
 
 
