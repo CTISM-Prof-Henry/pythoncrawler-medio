@@ -31,13 +31,13 @@ def main():
             id_produto = 0
             for name in nome_produtos:
                 nome = name.text
-                name_product = [{nome}]  # inserindo em um dicionario
+                name_product = {'na':nome} # inserindo em um dicionario
                 print(name_product)
                 # gerando id dos produtos
                 for i in range(len(name_product)):  # contando itens do dicionario para gerar id
                     id_produto += i + 1  # acrescentando 1 a cada id
                     print('id do produto: ', id_produto)  # verificando o id
-                    cur.execute('INSERT OR REPLACE INTO produto(nome, id_produto) VALUES ({0}, \'{1}\' )'.format(name_product, id_produto))
+                    cur.execute('INSERT OR REPLACE INTO produto(id_produto, nome) VALUES ({0}, \'{1}\' )'.format(id_produto, nome))
                     con.commit()
 
             id_anota = 0
@@ -50,7 +50,8 @@ def main():
                 for j in range(len(price_product)):  # contando itens do dicionario para gerar id
                     id_anota += j + 1  # acrescentando 1 a cada id
                     print('id anotação: ', id_anota)  # verificando o id
-                    cur.execute('INSERT INTO anota(preco, dia_crawler, id_anota) VALUES ({0}, \'{1}\', {2})'.format(price_product, data_crawler, id_anota))
+                    cur.execute('INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', {2})'.format(id_anota, data_crawler, preco))
+                    cur.execute('INSERT INTO produto_e_anota(id_anota, id_produto) VALUES ({0}, \'{1}\', {2})'.format(id_anota, id_anota))
                     con.commit()
             con.commit()
 
