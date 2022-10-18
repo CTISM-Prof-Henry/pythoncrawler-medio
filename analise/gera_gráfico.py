@@ -6,43 +6,52 @@ import numpy as np
 import sqlite3
 
 def acessa_banco():
-    con = sqlite3.connect('banco.db')
+    con = sqlite3.connect('../banco/banco.db')
     cur = con.cursor()
 
-
     dados1 = cur.execute('''
-        select x, y
-        from exemplo 
-        where semestre='primeiro semestre'
-    ''').fetchall()
-    dados2 = cur.execute('''
-        select x, y
-        from exemplo 
-        where semestre='segundo semestre'
-    ''').fetchall()
+                select A.id_produto, A.nome, B.preco, B.dia_crawler
+                from produto as A
+                inner join produto_e_anota as C on A.id_produto = C.id_produto
+                inner join anota as B on C.id_anota = B.id_anota
+            ''').fetchall()  # type: list
 
-    # zip(*dados1) transforma uma lista de tuplas em duas tuplas:
-    # dados1 = [(0, 1), (0, 0), (0, 0), (0, 0), (0, 0)]
-    # zip(*dados1) vira x = (0, 0, 0, 0, 0) e y1 = (1, 0, 0, 0, 0)
-    x, y1 = zip(*dados1)
-    x, y2 = zip(*dados2)
+    processados = dict()
 
-    return list(x), list(y1), list(y2)
+    # linha é uma tupla de 4 posições nessa ordem: id_produto, nome, preco, date_annotation
+    # pois essas foram as colunas selecionadas na cláusula select
+    for linha in dados1:
+        # o formato deve ser o mesmo que foi usado para armazenar a string
+        data = dt.strptime(linha[3], '%Y-%m-%d-%H-%M-%S')
+
+        if linha[1] in processados:
+            # adiciona à lista
+            processados[linha[1]] += [{'preço': linha[2], 'data': data}]
+        else:
+            # cria lista
+            processados[linha[1]] = [{'preço': linha[2], 'data': data}]
 
 
-def desenha(x, y1, y2):
+    return processados
+
+def desenha(produto):
     fig, ax = plt.subplots()
 
-    ax.bar(x, y1, label='primeiro semestre', color='#b434eb')
-    ax.bar(x, y2, label='segundo semestre', color='#86d96c')
+    # existem diversas maneiras de processar os dados. eu optei por fazer assim
+    # não é necessariamente a mais fácil!
+    for nome, dados in produto.items():
+        datas = []
+        precos = []
+        for linha in dados:
+            datas += [linha['data']]
+            precos += [linha['preço']]
 
-    ax.set_xticks(x)
-    ax.set_xticklabels(['segunda', 'terça', 'quarta', 'quinta', 'sexta'])
+        processados = list(sorted(zip(datas, precos), key=lambda x: x[0]))
+        datas, precos = zip(*processados)
+        datas = [x.timestamp() for x in datas]
+        ax.plot(datas, precos, label=nome)
 
-    ax.set_xlabel('dias da semana')
-    ax.set_ylabel('RAPAAAAAZ')
-
-    ax.set_title('nível de alegria nesta escola')
+    ax.set_title('preços dos produtos coletados pelo crawler')
 
     plt.legend(loc='upper right')
 
@@ -50,8 +59,8 @@ def desenha(x, y1, y2):
     plt.show()
 
 def main():
-    x, y1, y2 = acessa_banco()
-    desenha(x, y1, y2)
+    produto = acessa_banco()
+    desenha(produto)
 
 
 if __name__ == '__main__':
