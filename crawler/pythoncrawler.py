@@ -31,14 +31,17 @@ def main():
             id_produto = 0
             for name in nome_produtos:
                 nome = name.text
-                name_product = {'na':nome} # inserindo em um dicionario
+                name_product = {'na': nome}  # inserindo em um dicionario
                 print(name_product)
                 # gerando id dos produtos
                 for i in range(len(name_product)):  # contando itens do dicionario para gerar id
                     id_produto += i + 1  # acrescentando 1 a cada id
                     print('id do produto: ', id_produto)  # verificando o id
-                    cur.execute('INSERT OR REPLACE INTO produto(id_produto, nome) VALUES ({0}, \'{1}\' )'.format(id_produto, nome))
-                    con.commit()
+
+                try:
+                    ultimo_produto = int(cur.execute('SELECT MAX(id_produto) from produto').fetchone()[0]) + 1
+                except:
+                    ultimo_produto = 0
 
             id_anota = 0
             # criando laço para inserir preço e id anota
@@ -48,11 +51,28 @@ def main():
                 print(price_product)
                 # gerando id das anotações
                 for j in range(len(price_product)):  # contando itens do dicionario para gerar id
-                    id_anota += j + 1  # acrescentando 1 a cada id
+                    id_anota += j + 1  # acrescentando 1 a cada id   
                     print('id anotação: ', id_anota)  # verificando o id
-                    cur.execute('INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(id_anota, data_crawler, preco))
-
-            cur.execute('INSERT INTO produto_e_anota(id_anota, id_produto) VALUES ({0}, \'{1}\')'.format(id_anota, id_anota))
+                    try:
+                        ultimo_anota = int(cur.execute('SELECT MAX(id_anota) from anotacoes').fetchone()[0]) + 1
+                    except:
+                        ultimo_anota = 0
+                    res = cur.execute('SELECT id_produto FROM produtos WHERE nome=\'{0}\''.format(nome)).fetchone()
+                    if res is None:  # não achou nada no banco; o produto não existe lá ainda
+                        # insere no banco o produto
+                        cur.execute(
+                            'INSERT INTO produtos(id_produto, nome) VALUES ({0}, \'{1}\')'.format(ultimo_produto, nome)
+                        )
+                        id_product = ultimo_anota
+                        ultimo_anota += 1
+                    else:
+                        # atribui o id recuperado a variável id_produto
+                        id_product = res[0]
+                    cur.execute(
+                        'INSERT INTO anota(id_produto, data_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'
+                    )
+            cur.execute(
+                'INSERT INTO produto_e_anota(id_anota, id_produto) VALUES ({0}, \'{1}\')'.format(id_anota, id_anota))
             con.commit()
             con.commit()
 
