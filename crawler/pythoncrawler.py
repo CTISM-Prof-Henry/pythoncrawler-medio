@@ -32,16 +32,25 @@ def main():
             id_produto = 0
             for name in nome_produtos:
                 nome = name.text
-                name_product = {'na':nome} # inserindo em um dicionario
+                name_product = {'na': nome}  # inserindo em um dicionario
                 print(name_product)
                 # gerando id dos produtos
                 for i in range(len(name_product)):  # contando itens do dicionario para gerar id
                     id_produto += i + 1  # acrescentando 1 a cada id
-                    cur.execute(
-                        'INSERT OR REPLACE INTO produto'
-                        '(id_produto, nome) VALUES ({0}, \'{1}\')'.format(
-                        id_produto, nome))
-                    print('id anotação: ', id_produto)  # verificando o id
+
+                    if id_produto is not cur.execute(
+                            'SELECT id_produto FROM produto WHERE nome=\'{0}\''.format(nome)).fetchone():
+                        id_produtinho = id_produto + 1
+                        cur.execute(
+                            'INSERT INTO produto'
+                            '(id_produto, nome) VALUES ({0}, \'{1}\')'.format(
+                                id_produtinho, nome))
+                        print('id anotação: ', id_produto)  # verificando o id
+                    else:
+                        cur.execute(
+                            'INSERT INTO produto'
+                            '(id_produto, nome) VALUES ({0}, \'{1}\')'.format(
+                                id_produto, nome))
 
                     con.commit()
 
@@ -54,14 +63,18 @@ def main():
                 # gerando id das anotações
                 for j in range(len(price_product)):  # contando itens do dicionario para gerar id
                     id_anota += j + 1  # acrescentando 1 a cada id
-                    cur.execute(
-                        'INSERT OR REPLACE INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(
-                            id_anota, data_crawler, preco))
-                    print('id anotação: ', id_anota)  # verificando o id
-                    con.commit()
+                    if id_anota is not cur.execute(
+                            'SELECT id_anota FROM anota WHERE preco=\'{0}\''.format(preco)).fetchone():
+                        cur.execute(
+                            'INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(
+                                id_anota, data_crawler, preco))
+                        print('id anotação: ', id_anota)  # verificando o id
+                        con.commit()
+                    else:
+                        pass
 
             cur.execute(
-                'INSERT OR REPLACE INTO produto_e_anota(id_produto, id_anota) VALUES ({0}, {1})'.format(
+                'INSERT INTO produto_e_anota(id_produto, id_anota) VALUES ({0}, {1})'.format(
                     id_produto, id_anota
                 )
             )
