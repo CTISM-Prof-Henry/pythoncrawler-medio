@@ -4,6 +4,8 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import sqlite3
+from datetime import datetime as dt
+
 
 def acessa_banco():
     con = sqlite3.connect('../banco/banco.db')
@@ -31,14 +33,12 @@ def acessa_banco():
             # cria lista
             processados[linha[1]] = [{'preço': linha[2], 'data': data}]
 
-
     return processados
+
 
 def desenha(produto):
     fig, ax = plt.subplots()
 
-    # existem diversas maneiras de processar os dados. eu optei por fazer assim
-    # não é necessariamente a mais fácil!
     for nome, dados in produto.items():
         datas = []
         precos = []
@@ -57,6 +57,7 @@ def desenha(produto):
 
     plt.savefig('gráfico.png', format='png')
     plt.show()
+
 
 def main():
     produto = acessa_banco()
