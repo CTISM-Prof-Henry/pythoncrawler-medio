@@ -19,7 +19,7 @@ def main():
         # adicionando a tag onde esta o preço
         nome_produtos = driver.find_elements_by_tag_name("div.item-card__description__product-name")
         preco_produtos = driver.find_elements_by_tag_name("span.haveInstallments")
-        time.sleep(4)
+        time.sleep(10)
 
         database_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../banco/banco.db')
         with sqlite3.connect(database_path) as con:
@@ -28,6 +28,7 @@ def main():
             # gerando os id da tabela produtos
 
             cur = con.cursor()  # cria cursor
+
             id_produto = 0
             for name in nome_produtos:
                 nome = name.text
@@ -36,7 +37,22 @@ def main():
                 # gerando id dos produtos
                 for i in range(len(name_product)):  # contando itens do dicionario para gerar id
                     id_produto += i + 1  # acrescentando 1 a cada id
-                    print('id do produto: ', id_produto)  # verificando o id
+
+                    if id_produto is not cur.execute(
+                            'SELECT id_produto FROM produto WHERE nome=\'{0}\''.format(nome)).fetchone():
+                        id_produtinho = id_produto + 1
+                        cur.execute(
+                            'INSERT INTO produto'
+                            '(id_produto, nome) VALUES ({0}, \'{1}\')'.format(
+                                id_produtinho, nome))
+                        print('id anotação: ', id_produto)  # verificando o id
+                    else:
+                        cur.execute(
+                            'INSERT INTO produto'
+                            '(id_produto, nome) VALUES ({0}, \'{1}\')'.format(
+                                id_produto, nome))
+
+                    con.commit()
 
             id_anota = 0
             # criando laço para inserir preço e id anota
@@ -47,25 +63,22 @@ def main():
                 # gerando id das anotações
                 for j in range(len(price_product)):  # contando itens do dicionario para gerar id
                     id_anota += j + 1  # acrescentando 1 a cada id
-                    print('id anotação: ', id_anota)  # verificando o id
-                    try:
-                        ultimo_anota = int(cur.execute('SELECT MAX(id_anota) from anota').fetchone()[0]) + 1
-                    except:
-                        ultimo_anota = 0
-
-                    res = cur.execute('SELECT id_produto FROM produto WHERE nome=\'{0}\''.format(nome)).fetchone()
-                    if res is None:  # não achou nada no banco; o produto não existe lá ainda
-                        # insere no banco o produto
+                    if id_anota is not cur.execute(
+                            'SELECT id_anota FROM anota WHERE preco=\'{0}\''.format(preco)).fetchone():
                         cur.execute(
                             'INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(
-                                ultimo_anota, data_crawler, preco)
-                        )
-                        ultimo_anota += 1
+                                id_anota, data_crawler, preco))
+                        print('id anotação: ', id_anota)  # verificando o id
+                        con.commit()
                     else:
-                        cur.execute(
-                            'INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(
-                                ultimo_anota, data_crawler, preco)
-                        )
+                        pass
+
+            cur.execute(
+                'INSERT INTO produto_e_anota(id_produto, id_anota) VALUES ({0}, {1})'.format(
+                    id_produto, id_anota
+                )
+            )
+            id_anota += 1
 
 
 if __name__ == '__main__':
