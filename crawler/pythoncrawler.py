@@ -38,11 +38,6 @@ def main():
                     id_produto += i + 1  # acrescentando 1 a cada id
                     print('id do produto: ', id_produto)  # verificando o id
 
-                try:
-                    ultimo_produto = int(cur.execute('SELECT MAX(id_produto) from produto').fetchone()[0]) + 1
-                except:
-                    ultimo_produto = 0
-
             id_anota = 0
             # criando laço para inserir preço e id anota
             for price in preco_produtos:
@@ -57,22 +52,20 @@ def main():
                         ultimo_anota = int(cur.execute('SELECT MAX(id_anota) from anota').fetchone()[0]) + 1
                     except:
                         ultimo_anota = 0
+
                     res = cur.execute('SELECT id_produto FROM produto WHERE nome=\'{0}\''.format(nome)).fetchone()
                     if res is None:  # não achou nada no banco; o produto não existe lá ainda
                         # insere no banco o produto
                         cur.execute(
-                            'INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(ultimo_anota, data_crawler, preco)
+                            'INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(
+                                ultimo_anota, data_crawler, preco)
                         )
-                        id_ant = ultimo_anota
                         ultimo_anota += 1
                     else:
-                        # atribui o id recuperado a variável id_produto
-                        id_ant = res[0]
-                    cur.execute(
-                        'INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(
-                            ultimo_anota, data_crawler, preco)
-                    )
-          
+                        cur.execute(
+                            'INSERT INTO anota(id_anota, dia_crawler, preco) VALUES ({0}, \'{1}\', \'{2}\')'.format(
+                                ultimo_anota, data_crawler, preco)
+                        )
 
 
 if __name__ == '__main__':
