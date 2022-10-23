@@ -33,19 +33,19 @@ e troque de `[ ]` para `[x]`.
 * [x] Diga qual membro do grupo ficará responsável por qual parte do 
       trabalho. A resposta dada na tabela será checada com os commits do 
       repositório.
-* [ ] Elabore um fluxograma com o projeto do banco de dados. Salve em um arquivo
+* [x] Elabore um fluxograma com o projeto do banco de dados. Salve em um arquivo
       .png e insira-o no arquivo [análise.md](análise.md).
-* [ ] Especifique o intervalo tempo em que o _web crawler_ ficou rodando. O _web
+* [x] Especifique o intervalo tempo em que o _web crawler_ ficou rodando. O _web
       crawler_ deve ter rodado em sete ocasiões, porém ele não precisa rodar em 7
       dias consecutivos. Do mesmo modo, o _web crawler_ não precisa ficar rodando
       por diversas horas ininterruptamente; basta colocá-lo para rodar em 7 
       ocasiões.
-* [ ] Analise os dados. Quais produtos tiveram a maior variação de preço? E os
+* [x] Analise os dados. Quais produtos tiveram a maior variação de preço? E os
       que tiveram a menor variação? Ocorreram fatores externos que influenciaram
       na oscilação de preços? (por exemplo, um feriado que fez os preços das 
       passagens aéras ficarem mais caras). Edite o arquivo [análise.md](análise.md),
       respondendo às perguntas acima.
-* [ ] No arquivo [análise.md](análise.md), insira um gráfico, gerado com a 
+* [x] No arquivo [análise.md](análise.md), insira um gráfico, gerado com a 
       biblioteca [matplotlib](https://matplotlib.org/), e usando os dados 
       que vieram do banco de dados, para auxiliar na explicação da análise. 
       Use o script [gera_gráfico.py](gera_gráfico.py) para gerar o arquivo .png.
