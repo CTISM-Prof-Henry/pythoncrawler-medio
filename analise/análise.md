@@ -8,10 +8,10 @@ não sofreram alterações em seus valores no site. Durante as ocasiões em que 
 web crawler  foi rodado não houve nenhum fator, como feriados, 
 que alterasse o valor dos produtos. 
 
+Durante os testes foi observado a sobreposição de alguns itens, 
+a partir da alteração das cores das linhas do gráfico. 
+Isso dificultou a análise dos dados. 
+
 ## Gráfico
-O gráfico não gera as informações armazenadas no banco de dados por conta de 
-uma sobreposição de dados, e não consegue gerar uma coluna de análise devido a um 
-problema não identificado no gera_gráfico. 
 
-
-![](gráfico.png)
+![](grafico.jpeg)

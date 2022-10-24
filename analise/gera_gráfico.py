@@ -1,28 +1,24 @@
-# para ver uma galeria com exemplos de gráficos no matplotlib, acesse 
-# este link: https://matplotlib.org/stable/gallery/index.html
 
 from matplotlib import pyplot as plt
 import numpy as np
 import sqlite3
 from datetime import datetime as dt
+from matplotlib import style
 
 
 def acessa_banco():
     con = sqlite3.connect('../banco/banco.db')
     cur = con.cursor()
 
-    dados1 = cur.execute('''
+    # pegando dados nas tabelas
+    dados = cur.execute('''
                 select A.id_produto, A.nome, B.preco, B.dia_crawler
-                from produto as A
-                inner join produto_e_anota as C on A.id_produto = C.id_produto
-                inner join anota as B on C.id_anota = B.id_anota
-            ''').fetchall()  # type: list
+                from produto as A, anota as B
+            ''').fetchall()
 
     processados = dict()
 
-    # linha é uma tupla de 4 posições nessa ordem: id_produto, nome, preco, date_annotation
-    # pois essas foram as colunas selecionadas na cláusula select
-    for linha in dados1:
+    for linha in dados:
         # o formato deve ser o mesmo que foi usado para armazenar a string
         data = dt.strptime(linha[3], '%Y-%m-%d-%H-%M-%S')
 
@@ -50,10 +46,9 @@ def desenha(produto):
         datas, precos = zip(*processados)
         datas = [x.timestamp() for x in datas]
         ax.plot(datas, precos, label=nome)
+    ax.set_title('PREÇO TENIS ASICS')
 
-    ax.set_title('preços dos produtos coletados pelo crawler')
-
-    plt.legend(loc='upper right')
+    plt.legend(loc='lower right')
 
     plt.savefig('gráfico.png', format='png')
     plt.show()
