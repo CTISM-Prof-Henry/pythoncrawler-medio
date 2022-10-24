@@ -8,9 +8,11 @@ não sofreram alterações em seus valores no site. Durante as ocasiões em que 
 web crawler  foi rodado não houve nenhum fator, como feriados, 
 que alterasse o valor dos produtos. 
 
-Durante os testes foi observado a sobreposição de alguns itens, 
-a partir da alteração das cores das linhas do gráfico. 
-Isso dificultou a análise dos dados. 
+Durante os testes foi observado a sobreposição de alguns itens. 
+Porém foi possível analisar os dados a partir da alteração de cores do gráfico, 
+facilitando a visualização individual dos itens. 
+
+
 
 ## Gráfico
 
